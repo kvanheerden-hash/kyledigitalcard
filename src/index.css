@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@import '@fontsource/cormorant-garamond/300.css';
+@import '@fontsource/cormorant-garamond/600.css';
+@import '@fontsource/dm-sans/300.css';
+@import '@fontsource/dm-sans/400.css';
+@import '@fontsource/dm-sans/500.css';
+
+@theme {
+  --color-bg:            #0A0B0F;
+  --color-surface:       #12141A;
+  --color-gold-bright:   #E8C060;
+  --color-gold-mid:      #C9922A;
+  --color-gold-deep:     #8B5E1A;
+  --color-gold:          #C9A84C;
+  --color-text-primary:  #F0EDE8;
+  --color-text-muted:    #6B7280;
+
+  --font-serif: "Cormorant Garamond", serif;
+  --font-sans:  "DM Sans", sans-serif;
+
+  --text-fluid-hero:  clamp(2.2rem, 5vw, 4.8rem);
+  --text-fluid-title: clamp(0.8rem, 1.5vw, 1rem);
+  --text-fluid-body:  clamp(0.875rem, 1.2vw, 0.95rem);
+}
+
+:root {
+  --gold:        #C9A84C;
+  --gold-bright: #E8C060;
+  --gold-mid:    #C9922A;
+  --gold-deep:   #8B5E1A;
+  --bg:          #0A0B0F;
+  --surface:     #12141A;
+}
+
+/* Safe area insets for landscape notch handling on iPhone and similar devices */
+body {
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+/* Grain overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+}
+
+/* Reduce grain cost on mobile; the effect is less visible on small OLED panels anyway */
+@media (max-width: 767px) {
+  body::after {
+    opacity: 0.02;
+  }
+}
+
+@property --gold-glow {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+
+html { cursor: none; }
+@media (pointer: coarse) { html { cursor: auto; } }
+
+.cursor-expanded {
+  width: 56px;
+  height: 56px;
+  border-color: rgba(201, 168, 76, 0.25);
+}
+
+/* Keyboard focus indicator for external keyboards on iPad and desktop */
+:focus-visible {
+  outline: 2px solid rgba(201, 168, 76, 0.65);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Remove focus ring for mouse/touch; only show for keyboard navigation */
+:focus:not(:focus-visible) {
+  outline: none;
+}
