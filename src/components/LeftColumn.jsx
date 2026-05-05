@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import CounterUnit from './CounterUnit.jsx'
 import MagneticButton from './MagneticButton.jsx'
 import SineWaveLayer from './SineWaveLayer.jsx'
+import LogoOrbit from './LogoOrbit.jsx'
 
 const containerVariants = {
   hidden: {},
@@ -45,43 +46,37 @@ const countersData = [
 
 export default function LeftColumn({ irisComplete }) {
   return (
-    <header className="relative flex flex-col justify-between px-6 py-10 md:px-12 md:py-16 overflow-hidden bg-bg">
-      <SineWaveLayer />
+    <header className="relative flex flex-col justify-between px-6 py-8 md:px-12 md:pt-10 md:pb-16 overflow-hidden bg-bg">
+      <SineWaveLayer className="hidden md:block absolute bottom-0 left-0 w-full h-[260px] pointer-events-none z-10" />
 
       <motion.div
-        className="relative z-20 flex flex-col gap-6 md:gap-8"
+        className="relative z-20 flex flex-col gap-5 md:gap-7"
         variants={containerVariants}
         initial="hidden"
         animate={irisComplete ? 'visible' : 'hidden'}
       >
-        {/* Logo — w-14 = 56px mobile, 72px desktop; explicit attrs prevent CLS */}
-        <motion.div variants={logoVariants} className="flex items-center gap-4">
-          <img
-            src="/kvhlogotransparent.png"
-            alt="KvH - Kyle van Heerden personal brand monogram"
-            width="72"
-            height="72"
-            className="w-14 h-14 md:w-[72px] md:h-[72px]"
-            style={{ filter: 'drop-shadow(0 0 10px rgba(201,168,76,0.25))' }}
-          />
-        </motion.div>
+        {/* Profile photo + logo side by side */}
+        <motion.div variants={logoVariants} className="flex items-center gap-5 md:gap-6">
+          {/* Profile photo */}
+          <div className="relative w-24 h-24 md:w-[132px] md:h-[132px] shrink-0">
+            <div className="absolute inset-[-6px] rounded-full border border-gold/15 pointer-events-none" />
+            <div className="absolute inset-[-2px] rounded-full border border-gold/25 pointer-events-none" />
+            <img
+              src="/photos/kyle2.jpg"
+              srcSet="/photos/kyle2.jpg 1x, /photos/kyle2.jpg 2x"
+              alt="Kyle van Heerden, Pharmaceutical Marketing Strategist"
+              width="132"
+              height="132"
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
+              className="w-full h-full rounded-full object-cover object-center"
+            />
+            <div className="absolute inset-0 rounded-full bg-gradient-to-t from-bg/40 via-transparent to-transparent pointer-events-none" />
+          </div>
 
-        {/* Profile photo — w-28 = 112px mobile, 148px desktop; explicit attrs prevent CLS */}
-        <motion.div variants={logoVariants} className="relative w-28 h-28 md:w-[148px] md:h-[148px]">
-          <div className="absolute inset-[-8px] rounded-full border border-gold/15 pointer-events-none" />
-          <div className="absolute inset-[-3px] rounded-full border border-gold/25 pointer-events-none" />
-          <img
-            src="/photos/kyle2.jpg"
-            srcSet="/photos/kyle2.jpg 1x, /photos/kyle2.jpg 2x"
-            alt="Kyle van Heerden, Pharmaceutical Marketing Strategist"
-            width="148"
-            height="148"
-            loading="eager"
-            decoding="async"
-            fetchPriority="high"
-            className="w-full h-full rounded-full object-cover object-center"
-          />
-          <div className="absolute inset-0 rounded-full bg-gradient-to-t from-bg/40 via-transparent to-transparent pointer-events-none" />
+          {/* Animated logo — travel orbit handled by LogoOrbit */}
+          <LogoOrbit irisComplete={irisComplete} />
         </motion.div>
 
         {/* Identity */}

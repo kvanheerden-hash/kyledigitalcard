@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import PillarCard from './PillarCard.jsx'
-import KvhSignature from './KvhSignature.jsx'
+import SineWaveLayer from './SineWaveLayer.jsx'
 
 const containerVariants = {
   hidden: {},
@@ -61,25 +61,28 @@ export default function RightColumn({ irisComplete }) {
         <div className="absolute inset-0 bg-gradient-to-b from-bg/80 via-transparent to-bg/80" />
       </div>
 
-      {/* Vertical connector line — desktop only; has no visual meaning in single-column layout */}
+      {/* Vertical connector line — desktop only */}
       <div className="hidden md:block absolute left-0 top-4 bottom-4 w-px bg-gradient-to-b from-transparent via-gold/25 to-transparent" />
+
+      {/* Wave layers — top (flipped) and bottom */}
+      <SineWaveLayer
+        className="hidden md:block absolute top-0 right-0 w-full h-[220px] pointer-events-none z-10"
+        flipY flipX
+      />
+      <SineWaveLayer
+        className="hidden md:block absolute bottom-0 left-0 w-full h-[220px] pointer-events-none z-10"
+      />
 
       {/* Content */}
       <motion.div
-        className="relative z-10 h-full flex flex-col justify-between px-6 py-8 md:pt-6 md:px-12 md:pb-6 gap-6 md:gap-4"
+        className="relative z-10 h-full flex flex-col justify-center px-6 py-8 md:px-12 md:py-10 gap-3"
         variants={containerVariants}
         initial="hidden"
         animate={irisComplete ? 'visible' : 'hidden'}
       >
-        <div className="flex flex-col gap-3 flex-1 justify-center">
-          {pillarsData.map((pillar) => (
-            <PillarCard key={pillar.number} {...pillar} />
-          ))}
-        </div>
-
-        <footer className="flex justify-center pt-2 pb-0">
-          <KvhSignature />
-        </footer>
+        {pillarsData.map((pillar) => (
+          <PillarCard key={pillar.number} {...pillar} />
+        ))}
       </motion.div>
     </section>
   )
